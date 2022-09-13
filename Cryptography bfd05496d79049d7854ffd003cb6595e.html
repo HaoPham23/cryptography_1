@@ -1,0 +1,669 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Cryptography</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="42863d56-4d72-4010-9b5a-dc7d793a307c" class="page sans"><header><img class="page-cover-image" src="https://images.unsplash.com/photo-1572435555646-7ad9a149ad91?ixlib=rb-1.2.1&amp;q=80&amp;cs=tinysrgb&amp;fm=jpg&amp;crop=entropy" style="object-position:center 85.53%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://www.notion.so/icons/key_pink.svg"/></div><h1 class="page-title">Cryptography</h1></header><div class="page-body"><h1 id="afecbd48-6b97-458c-9a8a-efa7536d0188" class=""><mark class="highlight-blue">Course objectives:</mark></h1><ul id="d8a45619-13f1-46a0-a2c6-39ffc9901ff8" class="bulleted-list"><li style="list-style-type:disc">Learn how to crypto primitives work</li></ul><ul id="80bc6698-51b1-4926-aae6-f37d15962c28" class="bulleted-list"><li style="list-style-type:disc">Learn how to use them correctly and reason about security</li></ul><h2 id="c6c71a62-6e2d-47ca-9c87-6eb701c7a330" class="">Use Cases:</h2><p id="c9cbca91-b4b7-4f42-b533-eec36620d5e3" class=""><strong>Single use key: (one time key)</strong><div class="indented"><ul id="7367daa2-f773-4fb8-9f83-7694ee13db74" class="bulleted-list"><li style="list-style-type:disc">Key is only used to encrypt one message</li></ul></div></p><p id="8a5d8473-69ac-4465-a00c-93ef2aa9a66d" class=""><strong>Multi use key: (many time key)</strong><div class="indented"><ul id="d2b0371f-5e5b-4163-bf02-78ce12d09769" class="bulleted-list"><li style="list-style-type:disc">Key used to encrypt multiple messages</li></ul><ul id="00b8eec1-ac6d-4a7b-acc4-994d09a74a33" class="bulleted-list"><li style="list-style-type:disc">Need more machinery than for one-time key</li></ul></div></p><h2 id="7e0c8188-b36d-40cc-9d18-3693eecb6d99" class="">Things to remember:</h2><p id="d403fe15-83b1-4cd0-b9b8-65c2addbfa86" class=""><strong>Cryptography is:</strong><div class="indented"><ul id="f562dcb8-c0b0-463f-8e07-3c5652847991" class="bulleted-list"><li style="list-style-type:disc">A tremendous tool</li></ul><ul id="20c65e5c-2eab-40fb-a846-6a8bb8723e46" class="bulleted-list"><li style="list-style-type:disc">The basis for many security mechanisms</li></ul></div></p><p id="88aed097-4408-4ff7-addd-9ec8208b1e51" class=""><strong>But it is not:</strong><div class="indented"><ul id="c3d34f82-910b-4807-905a-4afb5bd0bc6a" class="bulleted-list"><li style="list-style-type:disc">The solution to all security problems</li></ul><ul id="a6c1899a-c901-4234-8e8b-d18e90946dfa" class="bulleted-list"><li style="list-style-type:disc">Reliable unless implemented and used properly</li></ul><ul id="2b15dac0-fe2f-436e-bcdd-b0b1bbb973db" class="bulleted-list"><li style="list-style-type:disc">Something you should try to invent yourself</li></ul></div></p><hr id="400503a1-f17d-45eb-9bf6-0d5b1289deb2"/><ul id="9bdad427-6817-4eab-9d62-5616d33046e4" class="block-color-blue_background toggle"><li><details open=""><summary><mark class="highlight-teal"><strong>Theorem: </strong></mark></summary><blockquote id="4cb83195-11ca-4031-8d64-fec401fb00d6" class="block-color-blue_background">Anything that can done with trusted authority, can also be done without.</blockquote></details></li></ul><hr id="146a5913-838c-4338-93b3-b5e9fcc4d93c"/><h3 id="2cf8979d-cd36-4aa9-a424-74a4da4a7291" class="">A rigorous science</h3><p id="ef0a29f6-0f47-4b2a-ab0c-25fbcb6c57af" class="">The 3 steps in cryptography:</p><ol type="1" id="732c20b4-2494-4271-834b-5ae6656a4c04" class="numbered-list" start="1"><li>Precisely specify threat model</li></ol><ol type="1" id="d08bc959-e20a-42c9-afe7-b5b6323f82ba" class="numbered-list" start="2"><li>Propose a construction</li></ol><ol type="1" id="cecd81e8-1e34-4dc9-bb77-1742bf200c33" class="numbered-list" start="3"><li>Prove that breaking construction under threat mode will solve an underlying hard problem</li></ol><hr id="41844039-8212-4188-9b1b-2aaad2da4816"/><h1 id="569cbe6e-46a5-4e0b-9346-7caef672f0a2" class=""><mark class="highlight-blue">History</mark></h1><p id="a8918bff-9083-43da-b6fe-5b4ef55425dd" class="">Symmetric Ciphers:</p><figure id="bfd05496-d790-49d7-854f-fd003cb6595e" class="image"><a href="Cryptography%20bfd05496d79049d7854ffd003cb6595e/Untitled.png"><img style="width:729px" src="Cryptography%20bfd05496d79049d7854ffd003cb6595e/Untitled.png"/></a></figure><p id="3b58653b-e57b-4856-a18c-a917d84c4eb7" class="">These ciphers below are all badly broken:</p><ul id="991b72eb-e429-4977-b6b1-8ce4eed19895" class="bulleted-list"><li style="list-style-type:disc">Substitution cipher: Caesar Cipher (shift by 3)…</li></ul><ul id="b8a87f1f-153b-4a80-80e4-ddc0bddcab83" class="bulleted-list"><li style="list-style-type:disc">Vigener cipher (16’th century, Rome)Rotor Machines (1870-1943)<figure id="be8fcbd5-5321-4a63-8266-ebb1aa645dce" class="image"><a href="Cryptography%20bfd05496d79049d7854ffd003cb6595e/Untitled%201.png"><img style="width:778px" src="Cryptography%20bfd05496d79049d7854ffd003cb6595e/Untitled%201.png"/></a></figure></li></ul><ul id="0b60ac3a-b778-4314-b95e-3388547a7e42" class="bulleted-list"><li style="list-style-type:disc">Rotor Machines (1870-1943): the Hebern machine (single rotor), the Enigma (3-5 rotors),…<figure id="158bd243-dbc6-4140-a596-435204ecf9df" class="image"><a href="Cryptography%20bfd05496d79049d7854ffd003cb6595e/Untitled%202.png"><img style="width:753px" src="Cryptography%20bfd05496d79049d7854ffd003cb6595e/Untitled%202.png"/></a></figure></li></ul><ul id="37135a9b-c8d5-4e84-9233-cbce686b4b5e" class="bulleted-list"><li style="list-style-type:disc">Data Encryption Standard (1974):<ul id="1686245f-57b3-4921-94a8-a3e14ecd5406" class="bulleted-list"><li style="list-style-type:circle">DES: #keys = <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>56</mn></msup></mrow><annotation encoding="application/x-tex">2^{56}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">56</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, block size = 64 bits</li></ul><ul id="b4c299fa-0ee1-4ca3-96ca-eeaac8ba7235" class="bulleted-list"><li style="list-style-type:circle">Today: AES (2001), Salsa20 (2008)</li></ul></li></ul><hr id="33d8a469-26e0-4f72-a690-48e794e740db"/><figure id="6e0b27ec-879e-49a8-bed5-6a9ffda12a4e" class="link-to-page"><a href="Cryptography%20bfd05496d79049d7854ffd003cb6595e/Discrete%20Probability%206e0b27ec879e49a8bed56a9ffda12a4e.html"><img class="icon" src="https://www.notion.so/icons/die3_green.svg"/>Discrete Probability</a></figure><hr id="d0a59e73-664b-4501-9525-fa97fb3657cb"/><figure id="930b834c-fa96-45a5-b1f5-1d40e8427232" class="link-to-page"><a href="Cryptography%20bfd05496d79049d7854ffd003cb6595e/Stream%20ciphers%20The%20One%20Time%20Pad%20(OTP)%20930b834cfa9645a5b1f51d40e8427232.html"><img class="icon" src="https://www.notion.so/icons/wind_blue.svg"/>Stream ciphers: The One Time Pad (OTP)</a></figure><hr id="3d18cdb5-1bc5-4b6a-90a5-45474ff03a8a"/><figure id="85dc3371-d1b5-47d2-bce4-56b875934e62" class="link-to-page"><a href="Cryptography%20bfd05496d79049d7854ffd003cb6595e/Block%20Ciphers%2085dc3371d1b547d2bce456b875934e62.html"><img class="icon" src="https://www.notion.so/icons/wall_brown.svg"/>Block Ciphers</a></figure><hr id="ea1dc412-6bd0-43e6-ad0b-0d46ac8679ec"/><figure id="3de94413-8317-455b-867f-7e67e3a7d38d" class="link-to-page"><a href="Cryptography%20bfd05496d79049d7854ffd003cb6595e/Message%20integrity%203de944138317455b867f7e67e3a7d38d.html"><img class="icon" src="https://www.notion.so/icons/lock-keyhole_red.svg"/>Message integrity</a></figure><hr id="b91f2199-5871-4410-9802-99c80b096ee1"/><figure id="2a31b719-4ad7-4634-88e0-439cf1740895" class="link-to-page"><a href="Cryptography%20bfd05496d79049d7854ffd003cb6595e/Authenticated%20Encryption%20(AE)%202a31b7194ad7463488e0439cf1740895.html"><img class="icon" src="https://www.notion.so/icons/user_red.svg"/>Authenticated Encryption (AE)</a></figure><hr id="409306aa-f62b-42d4-afba-485a55d1c518"/><figure id="b8754a8a-fc10-4e59-be4c-106530ec96ea" class="link-to-page"><a href="Cryptography%20bfd05496d79049d7854ffd003cb6595e/Odds%20and%20Ends%20b8754a8afc104e59be4c106530ec96ea.html"><img class="icon" src="https://www.notion.so/icons/layers_yellow.svg"/>Odds and Ends</a></figure><hr id="0bd2639a-c4d7-45a4-a3ff-de21c5ce6872"/><figure id="fa86330e-31b8-4380-a239-aa9cd8952172" class="link-to-page"><a href="Cryptography%20bfd05496d79049d7854ffd003cb6595e/Key%20Exchange%20fa86330e31b84380a239aa9cd8952172.html"><img class="icon" src="https://www.notion.so/icons/key_blue.svg"/>Key Exchange</a></figure><hr id="b56d1ea9-0e77-442d-97a4-329c9aa6a4b8"/><figure id="d934697d-d06c-498e-8a45-c4124b14ce5b" class="link-to-page"><a href="Cryptography%20bfd05496d79049d7854ffd003cb6595e/Number%20Theory%20and%20Arithmetic%20Algorithms%20d934697dd06c498e8a45c4124b14ce5b.html"><img class="icon" src="https://www.notion.so/icons/mathematics_red.svg"/>Number Theory and Arithmetic Algorithms</a></figure><hr id="9f7c0a48-6408-4078-8936-4db612c76d66"/><figure id="a5df795b-394e-4ad5-b074-27e0eeee0ae4" class="link-to-page"><a href="Cryptography%20bfd05496d79049d7854ffd003cb6595e/Public%20Key%20Encryption%20a5df795b394e4ad5b07427e0eeee0ae4.html"><img class="icon" src="https://www.notion.so/icons/send_green.svg"/>Public Key Encryption</a></figure></div></article></body></html>
