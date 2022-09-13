@@ -1,6 +1,6 @@
 # cryptography
 Cryptography course on Coursera by Prof. Don Boneh
 
-My Notion notebook: https://www.notion.so/haophamhcmut/Cryptography-42863d564d7240109b5adc7d793a307c
+The link below is my summary about this course (maybe shorter)
 
-Feel free to comment in it! 8)
+Website: https://haopham23.github.io/cryptography_1/
